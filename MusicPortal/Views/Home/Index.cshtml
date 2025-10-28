@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Головна";
+}
+
+<div class="text-center">
+    <h1 class="display-5">🎧 Музичний портал</h1>
+    <p class="lead">Додавайте, слухайте й завантажуйте улюблені пісні.</p>
+
+    <div class="mt-4">
+        <a asp-controller="Account" asp-action="Login" class="btn btn-success me-2">Увійти</a>
+        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">Реєстрація</a>
+    </div>
+
+    <div class="mt-5">
+        <a asp-controller="Songs" asp-action="Index" class="btn btn-dark me-2">🎵 До пісень</a>
+        <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Адмін-панель</a>
+    </div>
+</div>

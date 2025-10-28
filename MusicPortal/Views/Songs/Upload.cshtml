@@ -1,0 +1,21 @@
+﻿<h2>Завантаження пісні</h2>
+
+<form asp-action="Upload" method="post" enctype="multipart/form-data">
+    <label>Жанр:</label>
+    <select name="genreId" class="form-select w-25">
+        @foreach (var g in ViewBag.Genres)
+        {
+            <option value="@g.Id">@g.Name</option>
+        }
+    </select>
+
+    <label class="mt-2">Виберіть файл:</label>
+    <input type="file" name="file" class="form-control" />
+
+    <button type="submit" class="btn btn-success mt-3">Завантажити</button>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger mt-3">@ViewBag.Error</div>
+}

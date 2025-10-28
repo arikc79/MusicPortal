@@ -1,0 +1,22 @@
+﻿<h2>Вхід</h2>
+
+<form asp-action="Login" method="post" class="w-50">
+    <div class="mb-3">
+        <label for="username" class="form-label">Ім’я користувача або Email</label>
+        <input name="username" class="form-control" required />
+        <span class="text-danger field-validation-valid"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input name="password" type="password" class="form-control" required />
+        <span class="text-danger field-validation-valid"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Увійти</button>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger mt-3">@ViewBag.Error</div>
+    }
+</form>

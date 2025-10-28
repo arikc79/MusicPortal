@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+
+
+<h2>Адмін панель</h2>
+
+<h3>Користувачі</h3>
+<table class="table">
+    <tr><th>ID</th><th>Ім'я</th><th>Активний</th><th>Дія</th></tr>
+    @foreach (var user in ViewBag.Users)
+    {
+        <tr>
+            <td>@user.Id</td>
+            <td>@user.UserName</td>
+            <td>@user.IsActive</td>
+            <td>
+                @if (!user.IsActive)
+                {
+                    <a asp-action="ActivateUser" asp-route-id="@user.Id" class="btn btn-success btn-sm">Активувати</a>
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>Додати жанр</h3>
+<form asp-action="AddGenre" method="post" class="w-50">
+    <div class="mb-3">
+        <input name="name" placeholder="Назва жанру" class="form-control" required />
+        <span class="text-danger field-validation-valid"></span>
+    </div>
+    <button class="btn btn-primary">Додати</button>
+</form>
+
+<ul>
+    @foreach (var g in ViewBag.Genres)
+    {
+        <li>
+            @g.Name
+            <a asp-action="DeleteGenre" asp-route-id="@g.Id" class="btn btn-danger btn-sm">🗑</a>
+        </li>
+    }
+</ul>

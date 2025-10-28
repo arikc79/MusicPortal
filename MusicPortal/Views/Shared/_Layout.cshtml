@@ -1,0 +1,98 @@
+﻿@{
+    var userId = TempData["UserId"] as int?;
+    var role = TempData["Role"] as string;
+    TempData.Keep(); // Зберігає TempData після переходу
+}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Музичний портал</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">🎵 Music Portal</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">Головна</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Songs" asp-action="Index">Пісні</a>
+                    </li>
+
+                    @* Доступно лише авторизованим *@
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Songs" asp-action="Upload">➕ Додати пісню</a>
+                        </li>
+
+                        @* Доступно лише адміну *@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="Index">⚙️ Адмін-панель</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-link nav-link">Вийти</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Увійти</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Register">Реєстрація</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    
+    </nav>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[title]');
+        tooltipTriggerList.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                const tip = document.createElement('div');
+                tip.className = 'tooltip bs-tooltip-top fade show';
+                tip.style.position = 'absolute';
+                tip.innerHTML = `<div class="tooltip-inner">${el.title}</div>`;
+                document.body.appendChild(tip);
+                const rect = el.getBoundingClientRect();
+                tip.style.left = rect.left + 'px';
+                tip.style.top = (rect.top - 35) + 'px';
+                el.addEventListener('mouseleave', () => tip.remove());
+            });
+        });
+    </script>
+
+</body>
+</html>
