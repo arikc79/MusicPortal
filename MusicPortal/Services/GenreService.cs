@@ -1,36 +1,44 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MusicPortal.Data;
+﻿using MusicPortal.Data;
 using MusicPortal.Models;
 
 namespace MusicPortal.Services
 {
-    // Сервіс відповідає за управління жанрами
     public class GenreService : IGenreService
     {
-        private readonly IRepository<Genre> _genreRepo;
+        private readonly IRepository<Genre> _repository;
 
-        public GenreService(IRepository<Genre> genreRepo)
+        public GenreService(IRepository<Genre> repository)
         {
-            _genreRepo = genreRepo;
+            _repository = repository;
         }
 
-        public async Task<IEnumerable<Genre>> GetAllAsync() => await _genreRepo.GetAllAsync();
+        public async Task<IEnumerable<Genre>> GetAllAsync()
+        {
+            return await _repository.GetAllAsync();
+        }
+
+        public async Task<Genre?> GetByIdAsync(int id)
+        {
+            return await _repository.GetByIdAsync(id);
+        }
 
         public async Task AddGenreAsync(Genre genre)
         {
-            await _genreRepo.AddAsync(genre);
-            await _genreRepo.SaveAsync();
+            await _repository.AddAsync(genre);
         }
 
         public async Task DeleteAsync(int id)
         {
-            var genre = await _genreRepo.GetByIdAsync(id);
+            var genre = await _repository.GetByIdAsync(id);
             if (genre != null)
             {
-                _genreRepo.Delete(genre);
-                await _genreRepo.SaveAsync();
+                await _repository.DeleteAsync(genre);
             }
+        }
+
+        public async Task UpdateAsync(Genre genre)
+        {
+            await _repository.UpdateAsync(genre);
         }
     }
 }

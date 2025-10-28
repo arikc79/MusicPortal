@@ -3,14 +3,14 @@ using MusicPortal.Models;
 
 namespace MusicPortal.Data
 {
-    // Головний клас, який відповідає за з'єднання з БД
+    // Клас відповідає за з'єднання з БД
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         { }
 
-        // Набори сутностей (таблиці)
+        // Набори сутностей 
         public DbSet<User> Users { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<Genre> Genres { get; set; }

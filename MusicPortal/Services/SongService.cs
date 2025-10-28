@@ -1,52 +1,50 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MusicPortal.Data;
+﻿using MusicPortal.Data;
 using MusicPortal.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace MusicPortal.Services
 {
-    // Сервіс відповідає за роботу з піснями: додавання, отримання, фільтрація
     public class SongService : ISongService
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IRepository<Song> _songRepo;
+        private readonly IRepository<Song> _repository;
 
-        public SongService(ApplicationDbContext context, IRepository<Song> songRepo)
+        public SongService(IRepository<Song> repository)
         {
-            _context = context;
-            _songRepo = songRepo;
+            _repository = repository;
         }
 
+        // 🔹 Отримати всі пісні
         public async Task<IEnumerable<Song>> GetAllAsync()
         {
-            // Include дозволяє одразу підвантажити пов’язані сутності (User, Genre)
-            return await _context.Songs.Include(s => s.User).Include(s => s.Genre).ToListAsync();
+            return await _repository.GetAllAsync();
         }
 
-        public async Task<Song> GetByIdAsync(int id) => await _songRepo.GetByIdAsync(id);
-
-        public async Task AddSongAsync(Song song)
+        // 🔹 Отримати пісню за Id
+        public async Task<Song?> GetByIdAsync(int id)
         {
-            await _songRepo.AddAsync(song);
-            await _songRepo.SaveAsync();
+            return await _repository.GetByIdAsync(id);
         }
 
+        // 🔹 Отримати пісні за жанром
         public async Task<IEnumerable<Song>> GetByGenreAsync(int genreId)
         {
-            return await _context.Songs
-                .Include(s => s.Genre)
-                .Where(s => s.GenreId == genreId)
-                .ToListAsync();
+            var allSongs = await _repository.GetAllAsync();
+            return allSongs.Where(s => s.GenreId == genreId);
         }
 
-        public async Task<IEnumerable<Song>> GetByUserAsync(int userId)
+        // 🔹 Додати нову пісню
+        public async Task AddSongAsync(Song song)
         {
-            return await _context.Songs
-                .Include(s => s.User)
-                .Where(s => s.UserId == userId)
-                .ToListAsync();
+            await _repository.AddAsync(song);
+        }
+
+        // 🔹 Видалити пісню (нове)
+        public async Task DeleteAsync(int id)
+        {
+            var song = await _repository.GetByIdAsync(id);
+            if (song != null)
+            {
+                await _repository.DeleteAsync(song);
+            }
         }
     }
 }
