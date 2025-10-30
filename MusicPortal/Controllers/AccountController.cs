@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
-using MusicPortal.Services;
-using MusicPortal.Models;
 using Microsoft.AspNetCore.Mvc;
+using MusicPortal.Models;
+using MusicPortal.Models.ViewModels;
+using MusicPortal.Services;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MusicPortal.Controllers
@@ -44,6 +45,31 @@ namespace MusicPortal.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = new User
+            {
+                UserName = model.UserName,
+                Email = model.Email
+            };
+
+            await _userService.RegisterAsync(user, model.Password);
+
+            TempData["Message"] = "Реєстрація успішна! Зачекайте активації акаунта.";
+            return RedirectToAction("Login", "Account");
+        }
+
+
 
         public async Task<IActionResult> Logout()
         {
