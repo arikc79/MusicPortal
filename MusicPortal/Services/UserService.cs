@@ -38,7 +38,7 @@ namespace MusicPortal.Services
         public async Task RegisterAsync(User user, string password)
         {
             user.PasswordHash = _passwordHasher.HashPassword(user, password);
-            user.IsActive = false; // новий користувач має бути активований вручну
+            user.IsActive = false; //  має бути активований вручну
             await _repository.AddAsync(user);
         }
 

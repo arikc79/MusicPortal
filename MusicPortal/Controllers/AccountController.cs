@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using MusicPortal.Filters;
 using MusicPortal.Models;
 using MusicPortal.Models.ViewModels;
 using MusicPortal.Services;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MusicPortal.Controllers
 {
+    [Culture]
     public class AccountController : Controller
     {
         private readonly IUserService _userService;

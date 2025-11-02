@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Home"><value>Головна</value></data>
+  <data name="Songs"><value>Пісні</value></data>
+  <data name="Admin"><value>Адмін</value></data>
+  <data name="Login"><value>Увійти</value></data>
+  <data name="Register"><value>Реєстрація</value></data>
+  <data name="WelcomeMessage"><value>Музичний портал</value></data>
+  <data name="IntroText"><value>Додавайте, слухайте й завантажуйте улюблені пісні.</value></data>
+  <data name="ToSongs"><value>До пісень</value></data>
+  <data name="AdminPanel"><value>Адмін-панель</value></data>
+</root>

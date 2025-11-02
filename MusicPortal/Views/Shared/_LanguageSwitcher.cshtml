@@ -1,0 +1,11 @@
+﻿@{
+    var selectedCulture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+<form method="post" asp-controller="Home" asp-action="SetLanguage" class="d-inline">
+    <select name="culture" onchange="this.form.submit()" class="form-select form-select-sm w-auto d-inline">
+        <option value="uk" selected="@(selectedCulture == "uk" ? "selected" : null)">🇺🇦 Українська</option>
+        <option value="en" selected="@(selectedCulture == "en" ? "selected" : null)">🇬🇧 English</option>
+        <option value="de" selected="@(selectedCulture == "de" ? "selected" : null)">🇩🇪 Deutsch</option>
+    </select>
+</form>

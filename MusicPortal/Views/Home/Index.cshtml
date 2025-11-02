@@ -1,18 +1,32 @@
-﻿@{
-    ViewData["Title"] = "Головна";
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["HomePage"];
 }
 
 <div class="text-center">
-    <h1 class="display-5">🎧 Музичний портал</h1>
-    <p class="lead">Додавайте, слухайте й завантажуйте улюблені пісні.</p>
+    <h1 class="display-5">🎧 @Localizer["WelcomeMessage"]</h1>
+    <p class="lead">@Localizer["IntroText"]</p>
 
     <div class="mt-4">
-        <a asp-controller="Account" asp-action="Login" class="btn btn-success me-2">Увійти</a>
-        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">Реєстрація</a>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-success me-2">@Localizer["Login"]</a>
+        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">@Localizer["Register"]</a>
     </div>
 
     <div class="mt-5">
-        <a asp-controller="Songs" asp-action="Index" class="btn btn-dark me-2">🎵 До пісень</a>
-        <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Адмін-панель</a>
+        <a asp-controller="Songs" asp-action="Index" class="btn btn-dark me-2">🎵 @Localizer["ToSongs"]</a>
+        <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">@Localizer["AdminPanel"]</a>
     </div>
+
+    <hr class="my-4" />
+
+    <!-- 🌍 Language switcher -->
+    <form asp-controller="Home" asp-action="SetLanguage" method="post" class="d-inline">
+        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+        <div class="btn-group" role="group">
+            <button type="submit" name="culture" value="uk-UA" class="btn btn-light border">🇺🇦 Українська</button>
+            <button type="submit" name="culture" value="en-US" class="btn btn-light border">🇬🇧 English</button>
+            <button type="submit" name="culture" value="de-DE" class="btn btn-light border">🇩🇪 Deutsch</button>
+        </div>
+    </form>
 </div>

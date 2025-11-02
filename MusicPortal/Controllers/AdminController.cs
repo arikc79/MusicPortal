@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MusicPortal.Filters;
 using MusicPortal.Models;
 using MusicPortal.Services;
 
 namespace MusicPortal.Controllers
 {
     [Authorize(Roles = "Admin")]
+    [Culture]
     public class AdminController : Controller
     {
         private readonly IUserService _userService;

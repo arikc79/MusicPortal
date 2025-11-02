@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+// Models/ViewModels/RegisterViewModel.cs
+using System.ComponentModel.DataAnnotations;
 
 namespace MusicPortal.Models.ViewModels
 {
@@ -16,5 +17,11 @@ namespace MusicPortal.Models.ViewModels
         [DataType(DataType.Password)]
         [StringLength(30, MinimumLength = 6, ErrorMessage = "Пароль має бути від 6 до 30 символів")]
         public string Password { get; set; } = null!;
+
+        [Required(ErrorMessage = "Підтвердіть пароль")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Підтвердження паролю")]
+        [Compare("Password", ErrorMessage = "Паролі не співпадають")]
+        public string ConfirmPassword { get; set; } = null!;
     }
 }

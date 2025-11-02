@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using MusicPortal.Filters;
 using MusicPortal.Models;
 using MusicPortal.Services;
-using Microsoft.AspNetCore.Hosting;
 
 namespace MusicPortal.Controllers
 {
+    [Culture]
     public class SongsController : Controller
     {
         private readonly ISongService _songService;

@@ -1,7 +1,10 @@
-﻿<h2>Завантаження пісні</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h2>@Localizer["UploadHeader"]</h2>
 
 <form asp-action="Upload" method="post" enctype="multipart/form-data">
-    <label>Жанр:</label>
+    <label class="form-label">@Localizer["UploadGenreLabel"]</label>
     <select name="genreId" class="form-select w-25">
         @foreach (var g in ViewBag.Genres)
         {
@@ -9,10 +12,10 @@
         }
     </select>
 
-    <label class="mt-2">Виберіть файл:</label>
+    <label class="form-label mt-2">@Localizer["UploadFileLabel"]</label>
     <input type="file" name="file" class="form-control" />
 
-    <button type="submit" class="btn btn-success mt-3">Завантажити</button>
+    <button type="submit" class="btn btn-success mt-3">@Localizer["UploadButton"]</button>
 </form>
 
 @if (ViewBag.Error != null)

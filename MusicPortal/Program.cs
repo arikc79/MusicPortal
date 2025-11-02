@@ -1,23 +1,46 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MusicPortal.Data;
 using MusicPortal.Models;
 using MusicPortal.Services;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ---------------------- DB ----------------------
+// ----------------------  Localization ----------------------
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+var supportedCultures = new[]
+{
+    new CultureInfo("uk-UA"),
+    new CultureInfo("en-US"),
+    new CultureInfo("de-DE")
+};
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("uk-UA"); // 🇺🇦 українська — дефолт
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    // 🔹 Cookie має найвищий пріоритет
+    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+});
+
+// ----------------------  Database ----------------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ---------------------- Services ----------------------
+// ----------------------  Dependency Injection ----------------------
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 
-// ---------------------- Cookies ----------------------
+// ----------------------  Authentication ----------------------
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -33,22 +56,32 @@ builder.Services.AddAuthentication(options =>
     options.ExpireTimeSpan = TimeSpan.FromHours(2);
 });
 
-// ---------------------- MVC + Validation ----------------------
-builder.Services
-    .AddControllersWithViews()
-    .AddViewOptions(o => o.HtmlHelperOptions.ClientValidationEnabled = true);
+// ----------------------  MVC + Filters + Localization ----------------------
+builder.Services.AddControllersWithViews(options =>
+{
+    // ✅ глобальний фільтр культури
+
+})
+.AddViewLocalization()
+.AddDataAnnotationsLocalization();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
 var app = builder.Build();
 
-// ---------------------- Pipeline ----------------------
+// ✅ Enable localization middleware (single instance)
+var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(locOptions.Value);
+
+// ✅ Enable localization middleware
+// ----------------------  Middleware Pipeline ----------------------
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -59,15 +92,17 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// ----------------------  Apply Localization ----------------------
+// ----------------------  Default Routing ----------------------
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// ---------------------- ✅ Seed admin user ----------------------
+// ----------------------  Seed Admin User ----------------------
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated(); // створює БД, якщо немає
+    context.Database.EnsureCreated();
 
     if (!context.Users.Any(u => u.UserName == "admin"))
     {
@@ -79,6 +114,7 @@ using (var scope = app.Services.CreateScope())
             Role = UserRole.Admin,
             IsActive = true
         };
+
         admin.PasswordHash = hasher.HashPassword(admin, "admin");
         context.Users.Add(admin);
         context.SaveChanges();

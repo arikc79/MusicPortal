@@ -1,8 +1,11 @@
-﻿<h2>🎶 Пісні</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h2>@Localizer["SongsHeader"]</h2>
 
 <form method="get">
     <select name="genreId" class="form-select w-25" onchange="this.form.submit()">
-        <option value="">Усі жанри</option>
+        <option value="">@Localizer["AllGenres"]</option>
         @foreach (var g in ViewBag.Genres)
         {
             <option value="@g.Id">@g.Name</option>
@@ -11,32 +14,35 @@
 </form>
 
 <table class="table mt-3">
-    <tr><th>Назва</th><th>Жанр</th><th>Дія</th></tr>
-    @foreach (var song in Model)
-    {
+    <thead>
         <tr>
-            <td>@song.Title</td>
-            <td>@song.Genre?.Name</td>
-            <td>
-                @if (User.Identity != null && User.Identity.IsAuthenticated)
-                {
-                    <a asp-action="Download" asp-route-id="@song.Id" class="btn btn-sm btn-primary">
-                        ⬇️ Завантажити
-                    </a>
-                }
-                else
-                {
-                    <button type="button" class="btn btn-sm btn-secondary" disabled
-                            title="🔒 Увійдіть, щоб завантажити">
-                        ⬇️ Завантажити
-                    </button>
-                }
-            </td>
+            <th>@Localizer["TableSongTitle"]</th>
+            <th>@Localizer["TableGenre"]</th>
+            <th>@Localizer["TableAction"]</th>
         </tr>
-    }
-
-
-
+    </thead>
+    <tbody>
+        @foreach (var song in Model)
+        {
+            <tr>
+                <td>@song.Title</td>
+                <td>@song.Genre?.Name</td>
+                <td>
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Download" asp-route-id="@song.Id" class="btn btn-sm btn-primary">
+                            @Localizer["DownloadButton"]
+                        </a>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-sm btn-secondary" disabled
+                                title="@Localizer["LoginToDownloadTooltip"]">
+                            @Localizer["DownloadButton"]
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-
-<a asp-action="Upload" class="btn btn-primary">Завантажити пісню</a>

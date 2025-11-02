@@ -1,4 +1,9 @@
-﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+﻿@using Microsoft.Extensions.Localization
+@using MusicPortal
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@inject IStringLocalizer<SharedResource> Localizer
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

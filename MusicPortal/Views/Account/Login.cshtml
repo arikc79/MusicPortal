@@ -1,22 +1,25 @@
-﻿<h2>Вхід</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h2>@Localizer["LoginHeader"]</h2>
 
 <form asp-action="Login" method="post" class="w-50">
     <div class="mb-3">
-        <label for="username" class="form-label">Ім’я користувача або Email</label>
+        <label for="username" class="form-label">@Localizer["UsernameOrEmail"]</label>
         <input name="username" class="form-control" required />
         <span class="text-danger field-validation-valid"></span>
     </div>
 
     <div class="mb-3">
-        <label for="password" class="form-label">Пароль</label>
+        <label for="password" class="form-label">@Localizer["Password"]</label>
         <input name="password" type="password" class="form-control" required />
         <span class="text-danger field-validation-valid"></span>
     </div>
 
-    <button type="submit" class="btn btn-success">Увійти</button>
+    <button type="submit" class="btn btn-success">@Localizer["LoginButton"]</button>
 
     @if (ViewBag.Error != null)
     {
-        <div class="alert alert-danger mt-3">@ViewBag.Error</div>
+        <div class="alert alert-danger mt-3">@Localizer["LoginError"]</div>
     }
 </form>

@@ -1,3 +1,7 @@
-﻿<h2>🚫 Доступ заборонено</h2>
-<p>Ви не маєте прав для перегляду цієї сторінки.</p>
-<a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">На головну</a>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h2>@Localizer["AccessDeniedHeader"]</h2>
+<p>@Localizer["AccessDeniedMessage"]</p>
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">@Localizer["GoHome"]</a>
