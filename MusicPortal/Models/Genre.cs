@@ -11,7 +11,7 @@ namespace MusicPortal.Models
         [MaxLength(100, ErrorMessage = "Назва не повинна перевищувати 100 символів")]
         public string Name { get; set; } = null!;
 
-        // Навігаційна властивість — колекція пісень у цьому жанрі
+    
         public ICollection<Song> Songs { get; set; } = new List<Song>();
     }
 }

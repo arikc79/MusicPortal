@@ -3,19 +3,19 @@ using MusicPortal.Models;
 
 namespace MusicPortal.Data
 {
-    // Клас відповідає за з'єднання з БД
+    // З'єднання з БД
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         { }
 
-        // Набори сутностей 
+       
         public DbSet<User> Users { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<Genre> Genres { get; set; }
 
-        // Додаткові налаштування моделей
+        // Налаштування моделей
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

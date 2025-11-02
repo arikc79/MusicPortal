@@ -9,7 +9,7 @@ namespace MusicPortal.Services
         Task<IEnumerable<Song>> GetByGenreAsync(int genreId);
         Task AddSongAsync(Song song);
 
-        // ✅ Новий метод для видалення
+     
         Task DeleteAsync(int id);
     }
 }

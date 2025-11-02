@@ -1,5 +1,4 @@
-﻿// MusicPortal/Filters/CultureAttribute.cs
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MusicPortal.Filters
 {
@@ -7,7 +6,6 @@ namespace MusicPortal.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            // No-op: culture handled via middleware
         }
     }
 }

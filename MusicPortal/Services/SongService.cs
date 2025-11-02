@@ -12,32 +12,32 @@ namespace MusicPortal.Services
             _repository = repository;
         }
 
-        // 🔹 Отримати всі пісні
+        //  Отримати всі пісні
         public async Task<IEnumerable<Song>> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }
 
-        // 🔹 Отримати пісню за Id
+        //  Отримати пісню за Id
         public async Task<Song?> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
         }
 
-        // 🔹 Отримати пісні за жанром
+        //  Отримати пісні за жанром
         public async Task<IEnumerable<Song>> GetByGenreAsync(int genreId)
         {
             var allSongs = await _repository.GetAllAsync();
             return allSongs.Where(s => s.GenreId == genreId);
         }
 
-        // 🔹 Додати нову пісню
+        //  Додати нову пісню
         public async Task AddSongAsync(Song song)
         {
             await _repository.AddAsync(song);
         }
 
-        // 🔹 Видалити пісню (нове)
+        //  Видалити пісню 
         public async Task DeleteAsync(int id)
         {
             var song = await _repository.GetByIdAsync(id);

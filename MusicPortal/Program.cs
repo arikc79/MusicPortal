@@ -26,7 +26,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.DefaultRequestCulture = new RequestCulture("uk-UA"); // 🇺🇦 українська — дефолт
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
-    // 🔹 Cookie має найвищий пріоритет
+    //  Cookie має найвищий пріоритет
     options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
 });
 
@@ -59,8 +59,6 @@ builder.Services.AddAuthentication(options =>
 // ----------------------  MVC + Filters + Localization ----------------------
 builder.Services.AddControllersWithViews(options =>
 {
-    // ✅ глобальний фільтр культури
-
 })
 .AddViewLocalization()
 .AddDataAnnotationsLocalization();
@@ -70,11 +68,11 @@ builder.Services.AddSession();
 
 var app = builder.Build();
 
-// ✅ Enable localization middleware (single instance)
+
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(locOptions.Value);
 
-// ✅ Enable localization middleware
+
 // ----------------------  Middleware Pipeline ----------------------
 if (!app.Environment.IsDevelopment())
 {
@@ -92,7 +90,6 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// ----------------------  Apply Localization ----------------------
 // ----------------------  Default Routing ----------------------
 app.MapControllerRoute(
     name: "default",

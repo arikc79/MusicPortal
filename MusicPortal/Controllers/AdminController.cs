@@ -65,7 +65,7 @@ namespace MusicPortal.Controllers
             return RedirectToAction("Index");
         }
 
-        // --------------------- Delete Genre (✅ повністю працює) ---------------------
+        // --------------------- Delete Genre  ---------------------
         [HttpPost]
         public async Task<IActionResult> DeleteGenre(int id)
         {

@@ -1,4 +1,4 @@
-// Models/ViewModels/RegisterViewModel.cs
+
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicPortal.Models.ViewModels
